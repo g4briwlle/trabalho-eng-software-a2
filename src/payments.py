@@ -22,6 +22,10 @@ class BoletoPayment(Payment):
         print(f"-> Processing Boleto payment of {amount:.2f} BRL.")
         return "Boleto"
 
+class MilhasPayment(Payment):
+    def pay(self, amount: float) -> str:
+        print(f'-> Processing Milhas payment of {amount:.2f} BRL.')
+        return 'Milhas'
 
 
 class PaymentFactory(ABC):
@@ -54,3 +58,7 @@ class CreditCardFactory(PaymentFactory):
 class BoletoFactory(PaymentFactory):
     def create_payment(self) -> Payment:
         return BoletoPayment()
+
+class MilhasFactory(PaymentFactory):
+    def create_payment(self) -> Payment:
+        return MilhasPayment()

@@ -55,9 +55,36 @@ O Factory Method depende obrigatoriamente de herança e polimorfismo. Ele é car
 ### 3.3. Considere que uma nova forma de pagamento seja adicionada posteriormente. Explique quais partes da sua implementação precisariam ser alteradas.
 
 Nenhuma parte do código precisaria ser alterada, respeitando o OCP.
-Para adicionar uma nova forma de pagamento, basta estender o código criando apenas duas novas classes, por exemplo:
+Para adicionar uma nova forma de pagamento, basta estender o código criando apenas duas novas classes, por exemplo (ver questão 8):
 
-- CryptoPayment (herdando de Payment e implementando a interface pay()).
+- MilhasPayment (herdando de Payment e implementando a interface pay()).
 
-- CryptoFactory (herdando de PaymentFactory e retornando CryptoPayment no método create_payment()).
+- MilhasFactory (herdando de PaymentFactory e retornando MilhasPayment no método create_payment()).
 A classe abstrata PaymentFactory e o método process_order() não sofreriam modificação, eles operam exclusivamente com a abstração (a interface Payment).
+
+
+
+# 8 - Situação de mudança
+
+### 8.1. Quais arquivos foram criados ou modificados?
+
+Foi apenas modificado o payments.py, adicionando as duas classes MilhasPayment e MilhasFactory. Para o teste, só se acrescentou mais um pedido com outro builder, a factory de milhas e um outro print.
+
+### 8.2. O fluxo principal de processamento precisou ser alterado?
+
+Não. O fluxo principal, contido no método process_order(self, order: Order) da classe PaymentFactory, permaneceu igual: ele continua com a chamada genérica self.create_payment() e processa o valor independentemente de qual é a forma de pagamento.
+
+### 8.3. Quais classes existentes precisaram ser modificadas?
+
+
+Nenhuma. As classes antigas (Payment, PixPayment, PaymentFactory, ...) estão iguais. A nova funcionalidade foi adicionada só por meio da criação de novas classes.
+
+### 8.4. Explique como o Factory Method contribuiu para essa extensão.
+
+Ele isolou a lógica de criação do objeto, a instanciação, da lógica de uso, o processamento do pedido. Ao fazer com que a classe base PaymentFactory dependa apenas da abstração Payment e delegue a criação do objeto concreto para o método abstrato create_payment(), o padrão permitiu que a nova funcionalidade de milhas fosse inserida no sistema apenas criando subclasses. Isso garante o OCP, onde o sistema está aberto para extensões e fechado para modificações.
+
+### 8.5. Compare essa alteração com a inclusão do canal KIOSK. Quais são as semelhanças e diferenças arquiteturais entre as duas extensões?
+
+Ambas as extensões resolvem o problema de adicionar novos comportamentos sem modificar o código existente (OCP) e ambas delegam a criação de objetos concretos para subclasses ou fábricas especializadas.
+
+A extensão do pagamento utiliza o Factory Method, que foca em delegar a criação de um único tipo de produto (uma forma de pagamento). Já a inclusão do canal KIOSK utiliza o Abstract Factory, que foca na criação de uma família de produtos relacionados (checkout do Quiosque + notificação do Quiosque). Enquanto adicionar Milhas exige apenas criar um produto e sua fábrica simples, adicionar o KIOSK exige criar a fábrica abstrata que instancia todos os componentes necessários que compõem aquele canal específico para garantir que funcionem em harmonia.
