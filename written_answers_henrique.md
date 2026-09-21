@@ -34,7 +34,7 @@ São totalmente compatíveis com o OCP (Open/Closed Principle). O sistema é fec
 - `Product`: Representar o item vendido (nome e preço).
 - `Order`: Representar o pedido e calcular seu valor total (`total()`).
 - `OrderBuilder`: Construir pedidos passo a passo de forma fluente e validar dados obrigatórios (cliente).
-- `Payment` / `PaymentFactory`: Definir e processar os pagamentos via Factory Method.
+- `Payment` / `PaymentProcessor`: Definir e processar os pagamentos via Factory Method.
 - `Checkout` / `Notification`: Apresentar o checkout e enviar a notificação específica do canal.
 - `ChannelFactory`: Fabricar a família de produtos (checkout e notificação) de um canal.
 - `get_channel_factory` / `register_channel_factory`: Gerenciar o catálogo de fábricas de canais.

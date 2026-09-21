@@ -19,10 +19,10 @@ from src.channels import (
     KioskFactory,
 )
 from src.payments import (
-    PixFactory,
-    CreditCardFactory,
-    BoletoFactory,
-    MilhasFactory,
+    PixProcessor,
+    CreditCardProcessor,
+    BoletoProcessor,
+    MilhasProcessor,
 )
 from src.services import OrderService, EventLogger
 
@@ -46,9 +46,9 @@ def main():
     register_channel_factory("KIOSK", KioskFactory)
     print("    - Canais registrados: WEB, MOBILE, KIOSK")
 
-    pix_processor = PixFactory()
-    card_processor = CreditCardFactory()
-    print("    - Processadores de pagamento instanciados: PixFactory, CreditCardFactory")
+    pix_processor = PixProcessor()
+    card_processor = CreditCardProcessor()
+    print("    - Processadores de pagamento instanciados: PixProcessor, CreditCardProcessor")
 
     # Instanciação do serviço orquestrador com logger compartilhado
     logger = EventLogger()

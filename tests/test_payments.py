@@ -28,10 +28,10 @@ def run_tests():
     
     # Setup corresponding processors based on the order
     processors = {
-        "Pix": PixFactory(),
-        "Credit Card": CreditCardFactory(),
-        "Boleto": BoletoFactory(),
-        'Milhas' : MilhasFactory()
+        "Pix": PixProcessor(),
+        "Credit Card": CreditCardProcessor(),
+        "Boleto": BoletoProcessor(),
+        'Milhas': MilhasProcessor()
     }
     
     # Test 1 & 2: Process orders using two different methods and verify mapping

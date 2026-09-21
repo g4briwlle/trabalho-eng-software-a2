@@ -39,9 +39,9 @@ Com o Builder, temos legibilidade (.set_address("...").set_coupon("...") é mais
 
 ### 3.1. Identifique os papéis de: Creator, Concrete Creator, Product, Concrete Product.
 
-Creator: PaymentFactory. É a classe abstrata que declara o factory method create_payment() e contém a lógica de negócio principal com o process_order() que utiliza o objeto criado.
+Creator: PaymentProcessor. É a classe abstrata que declara o factory method create_payment() e contém a lógica de negócio principal com o process_order() que utiliza o objeto criado.
 
-Concrete Creator: PixFactory, CreditCardFactory e BoletoFactory. São as subclasses que sobrescrevem o factory method para instanciar as classes de pagamento específicas.
+Concrete Creator: PixProcessor, CreditCardProcessor e BoletoProcessor. São as subclasses que sobrescrevem o factory method para instanciar as classes de pagamento específicas.
 
 Product: Payment. É a interface ou classe base abstrata que define o contrato que todos os objetos criados pela fábrica devem seguir.
 
@@ -59,8 +59,8 @@ Para adicionar uma nova forma de pagamento, basta estender o código criando ape
 
 - MilhasPayment (herdando de Payment e implementando a interface pay()).
 
-- MilhasFactory (herdando de PaymentFactory e retornando MilhasPayment no método create_payment()).
-A classe abstrata PaymentFactory e o método process_order() não sofreriam modificação, eles operam exclusivamente com a abstração (a interface Payment).
+- MilhasProcessor (herdando de PaymentProcessor e retornando MilhasPayment no método create_payment()).
+A classe abstrata PaymentProcessor e o método process_order() não sofreriam modificação, eles operam exclusivamente com a abstração (a interface Payment).
 
 
 
@@ -68,20 +68,20 @@ A classe abstrata PaymentFactory e o método process_order() não sofreriam modi
 
 ### 8.1. Quais arquivos foram criados ou modificados?
 
-Foi apenas modificado o payments.py, adicionando as duas classes MilhasPayment e MilhasFactory. Para o teste, só se acrescentou mais um pedido com outro builder, a factory de milhas e um outro print.
+Foi apenas modificado o payments.py, adicionando as duas classes MilhasPayment e MilhasProcessor. Para o teste, só se acrescentou mais um pedido com outro builder, o processador de milhas e um outro print.
 
 ### 8.2. O fluxo principal de processamento precisou ser alterado?
 
-Não. O fluxo principal, contido no método process_order(self, order: Order) da classe PaymentFactory, permaneceu igual: ele continua com a chamada genérica self.create_payment() e processa o valor independentemente de qual é a forma de pagamento.
+Não. O fluxo principal, contido no método process_order(self, order: Order) da classe PaymentProcessor, permaneceu igual: ele continua com a chamada genérica self.create_payment() e processa o valor independentemente de qual é a forma de pagamento.
 
 ### 8.3. Quais classes existentes precisaram ser modificadas?
 
 
-Nenhuma. As classes antigas (Payment, PixPayment, PaymentFactory, ...) estão iguais. A nova funcionalidade foi adicionada só por meio da criação de novas classes.
+Nenhuma. As classes antigas (Payment, PixPayment, PaymentProcessor, ...) estão iguais. A nova funcionalidade foi adicionada só por meio da criação de novas classes.
 
 ### 8.4. Explique como o Factory Method contribuiu para essa extensão.
 
-Ele isolou a lógica de criação do objeto, a instanciação, da lógica de uso, o processamento do pedido. Ao fazer com que a classe base PaymentFactory dependa apenas da abstração Payment e delegue a criação do objeto concreto para o método abstrato create_payment(), o padrão permitiu que a nova funcionalidade de milhas fosse inserida no sistema apenas criando subclasses. Isso garante o OCP, onde o sistema está aberto para extensões e fechado para modificações.
+Ele isolou a lógica de criação do objeto, a instanciação, da lógica de uso, o processamento do pedido. Ao fazer com que a classe base PaymentProcessor dependa apenas da abstração Payment e delegue a criação do objeto concreto para o método abstrato create_payment(), o padrão permitiu que a nova funcionalidade de milhas fosse inserida no sistema apenas criando subclasses. Isso garante o OCP, onde o sistema está aberto para extensões e fechado para modificações.
 
 ### 8.5. Compare essa alteração com a inclusão do canal KIOSK. Quais são as semelhanças e diferenças arquiteturais entre as duas extensões?
 

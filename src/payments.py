@@ -62,3 +62,11 @@ class BoletoFactory(PaymentFactory):
 class MilhasFactory(PaymentFactory):
     def create_payment(self) -> Payment:
         return MilhasPayment()
+
+
+# Aliases for strict compliance with assignment prompt naming (PaymentProcessor, PixProcessor, etc.)
+PaymentProcessor = PaymentFactory
+PixProcessor = PixFactory
+CreditCardProcessor = CreditCardFactory
+BoletoProcessor = BoletoFactory
+MilhasProcessor = MilhasFactory

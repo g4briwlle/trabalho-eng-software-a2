@@ -10,16 +10,16 @@ from src.channels import (
     register_channel_factory,
 )
 from src.payments import (
-    PixFactory,
-    CreditCardFactory,
-    MilhasFactory,
+    PixProcessor,
+    CreditCardProcessor,
+    MilhasProcessor,
 )
 from src.services import OrderService, EventLogger
 
 
 # Q6: Integration Tests for OrderService Orchestration
 def test_complete_execution_web_flow():
-    """Q6: Complete execution for WEB channel using real PixFactory."""
+    """Q6: Complete execution for WEB channel using real PixProcessor."""
     # 1. Obtenção de AppConfig
     config = AppConfig()
     assert config.environment is not None
@@ -42,7 +42,7 @@ def test_complete_execution_web_flow():
     # 4. Orquestração via OrderService com processador de pagamento real
     logger = EventLogger()
     service = OrderService(logger=logger)
-    payment_processor = PixFactory()
+    payment_processor = PixProcessor()
 
     service.process_order(order, web_factory, payment_processor)
 
@@ -55,7 +55,7 @@ def test_complete_execution_web_flow():
 
 
 def test_complete_execution_kiosk_flow():
-    """Q6: Complete execution repeated for KIOSK channel using CreditCardFactory."""
+    """Q6: Complete execution repeated for KIOSK channel using CreditCardProcessor."""
     order = (
         OrderBuilder()
         .set_client("Carlos")
@@ -67,7 +67,7 @@ def test_complete_execution_kiosk_flow():
     kiosk_factory = get_channel_factory("KIOSK")
     logger = EventLogger()
     service = OrderService(logger=logger)
-    payment_processor = CreditCardFactory()
+    payment_processor = CreditCardProcessor()
 
     service.process_order(order, kiosk_factory, payment_processor)
 
@@ -187,7 +187,7 @@ def test_q7_factory_dynamic_registration_and_protocol_compliance():
 
     logger = EventLogger()
     service = OrderService(logger=logger)
-    payment_processor = MilhasFactory()
+    payment_processor = MilhasProcessor()
 
     # Execução completa sem erros com a nova fábrica e Milhas
     service.process_order(order, sw_factory, payment_processor)
