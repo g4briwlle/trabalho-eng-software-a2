@@ -2,7 +2,7 @@
 
 Demonstrates:
 1. Application configuration retrieval via Singleton (AppConfig).
-2. Factory registration and initial PaymentProcessor selection (PaymentFactory).
+2. Factory registration and initial PaymentProcessor selection.
 3. Order construction via Builder (OrderBuilder).
 4. Full workflow execution on the WEB channel.
 5. Full workflow repetition on the KIOSK channel.

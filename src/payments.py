@@ -28,7 +28,7 @@ class MilhasPayment(Payment):
         return 'Milhas'
 
 
-class PaymentFactory(ABC):
+class PaymentProcessor(ABC):
     
     @abstractmethod
     def create_payment(self) -> Payment:
@@ -47,26 +47,18 @@ class PaymentFactory(ABC):
         
         return processed_method
 
-class PixFactory(PaymentFactory):
+class PixProcessor(PaymentProcessor):
     def create_payment(self) -> Payment:
         return PixPayment()
 
-class CreditCardFactory(PaymentFactory):
+class CreditCardProcessor(PaymentProcessor):
     def create_payment(self) -> Payment:
         return CreditCardPayment()
 
-class BoletoFactory(PaymentFactory):
+class BoletoProcessor(PaymentProcessor):
     def create_payment(self) -> Payment:
         return BoletoPayment()
 
-class MilhasFactory(PaymentFactory):
+class MilhasProcessor(PaymentProcessor):
     def create_payment(self) -> Payment:
         return MilhasPayment()
-
-
-# Aliases for strict compliance with assignment prompt naming (PaymentProcessor, PixProcessor, etc.)
-PaymentProcessor = PaymentFactory
-PixProcessor = PixFactory
-CreditCardProcessor = CreditCardFactory
-BoletoProcessor = BoletoFactory
-MilhasProcessor = MilhasFactory
