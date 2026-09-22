@@ -23,6 +23,9 @@ class Order:
 
 class OrderBuilder:
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self._client = None
         self._products = []
         self._address = None
@@ -58,12 +61,16 @@ class OrderBuilder:
         # Rejects the construction if there is no client
         if not self._client:
             raise ValueError("Cannot build an order without a client.")
-        
-        return Order(
+
+        # Creates instance with orders list copy
+        order = Order(
             client=self._client,
-            products=self._products,
+            products=self._products.copy(), 
             address=self._address,
             coupon=self._coupon,
             payment_method=self._payment_method,
             observation=self._observation
         )
+        
+        self.reset()  # cleans builder for future use
+        return order
